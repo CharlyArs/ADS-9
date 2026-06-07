@@ -1,9 +1,8 @@
 // Copyright 2022 NNTU-CS
-#include  <iostream>
-#include  <fstream>
-#include  <locale>
-#include  <cstdlib>
-#include  "tree.h"
+#include <algorithm>
+#include <cstdint>
+#include <vector>
+#include "tree.h"
 
 PMTree::PMTree(const std::vector<char>& in) {
     std::vector<char> sorted_in = in;
@@ -30,7 +29,9 @@ void PMTree::buildTree(Node* node, std::vector<char> remaining) {
     }
 }
 
-static void collectPerms(Node* node, std::vector<char>& current, std::vector<std::vector<char>>& result) {
+static void collectPerms(Node* node,
+                         std::vector<char>& current,
+                         std::vector<std::vector<char>>& result) {
     if (!node) return;
 
     if (node->value != '\0') {
@@ -41,8 +42,7 @@ static void collectPerms(Node* node, std::vector<char>& current, std::vector<std
         if (!current.empty()) {
             result.push_back(current);
         }
-    }
-    else {
+    } else {
         for (Node* child : node->children) {
             collectPerms(child, current, result);
         }
@@ -60,8 +60,8 @@ std::vector<std::vector<char>> getAllPerms(PMTree& tree) {
     return result;
 }
 
-static long long factorial(int n) {
-    long long res = 1;
+static int64_t factorial(int n) {
+    int64_t res = 1;
     for (int i = 2; i <= n; ++i) res *= i;
     return res;
 }
@@ -69,7 +69,7 @@ static long long factorial(int n) {
 std::vector<char> getPerm1(PMTree& tree, int num) {
     std::vector<std::vector<char>> perms = getAllPerms(tree);
     if (num < 1 || num > static_cast<int>(perms.size())) {
-        return {}; 
+        return {};
     }
     return perms[num - 1];
 }
@@ -78,7 +78,7 @@ std::vector<char> getPerm2(PMTree& tree, int num) {
     if (!tree.root || tree.root->children.empty()) return {};
 
     int n = tree.root->children.size();
-    long long total = factorial(n);
+    int64_t total = factorial(n);
 
     if (num < 1 || num > total) return {};
 
@@ -87,10 +87,10 @@ std::vector<char> getPerm2(PMTree& tree, int num) {
 
     while (!current->children.empty()) {
         int c = current->children.size();
-        long long count_per_child = factorial(c - 1);
+        int64_t count_per_child = factorial(c - 1);
 
         int idx = (num - 1) / count_per_child;
-        if (idx >= c) return {}; 
+        if (idx >= c) return {};
 
         current = current->children[idx];
         result.push_back(current->value);
@@ -100,10 +100,3 @@ std::vector<char> getPerm2(PMTree& tree, int num) {
 
     return result;
 }
-// Copyright 2022 NNTU-CS
-#include  <iostream>
-#include  <fstream>
-#include  <locale>
-#include  <cstdlib>
-#include  "tree.h"
-
