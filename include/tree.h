@@ -3,7 +3,6 @@
 #define INCLUDE_TREE_H_
 
 #include <vector>
-#include <algorithm>
 
 struct Node {
     char value;
@@ -19,13 +18,13 @@ struct Node {
 };
 
 class PMTree {
-public:
+ public:
     Node* root;
 
     explicit PMTree(const std::vector<char>& in);
     ~PMTree();
 
-private:
+ private:
     void buildTree(Node* node, std::vector<char> remaining);
 };
 
