@@ -1,20 +1,22 @@
 // Copyright 2022 NNTU-CS
-#include <iostream>
-#include <vector>
 #include <chrono>
-#include <random>
+#include <cstdint>
 #include <iomanip>
+#include <iostream>
+#include <random>
+#include <string>
+#include <vector>
 #include "tree.h"
 
-long long getRandomNumber(long long min, long long max) {
+int64_t getRandomNumber(int64_t min, int64_t max) {
     static std::random_device rd;
     static std::mt19937_64 gen(rd());
-    std::uniform_int_distribution<long long> dis(min, max);
+    std::uniform_int_distribution<int64_t> dis(min, max);
     return dis(gen);
 }
 
-long long factorial(int n) {
-    long long res = 1;
+int64_t factorial(int n) {
+    int64_t res = 1;
     for (int i = 2; i <= n; ++i) res *= i;
     return res;
 }
@@ -33,9 +35,9 @@ int main() {
         }
 
         PMTree tree(in);
-        long long total_perms = factorial(n);
+        int64_t total_perms = factorial(n);
 
-        long long random_num = getRandomNumber(1, total_perms);
+        int64_t random_num = getRandomNumber(1, total_perms);
 
         auto start = std::chrono::high_resolution_clock::now();
         auto all_perms = getAllPerms(tree);
